@@ -1,0 +1,20 @@
+{
+    "name": "thumb-me",
+    "version": "0.0.1",
+    "description": "Minimal webserver for generating thumbnail",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ducntq/thumb-me"
+    },
+    "keywords": [
+        "thumbnail",
+        "static"
+    ],
+    "author": "Duc Nguyen",
+    "license": "GPL",
+    "bugs": {
+        "url": "https://github.com/ducntq/thumb-me/issues"
+    },
+    "homepage": "https://github.com/ducntq/thumb-me"
+}
