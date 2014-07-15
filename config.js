@@ -5,7 +5,7 @@ module.exports = {
             "path": "./storage"
         }
     },
-    "methods": ["thumb"],
+    "methods": ["Thumb"],
     "headers": [
         {name: "X-Powered-By", value: "thumb-me"}
     ],
