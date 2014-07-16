@@ -5,13 +5,11 @@ var config = require('../config.js'),
 function FileSystemHandler() {
 }
 
-FileSystemHandler.prototype.get = function(file, host, callback) {
+FileSystemHandler.prototype.get = function(file, host, mime, res) {
+    res.writeHead(200, {'Content-Type': mime});
     var filePath = this.resolve(file, host);
-    fs.readFile(filePath, function (err, data){
-        if (err) throw err;
-
-        callback(data);
-    });
+    var stream = fs.createReadStream(filePath);
+    stream.pipe(res);
 };
 
 FileSystemHandler.prototype.getHostDir = function(host) {

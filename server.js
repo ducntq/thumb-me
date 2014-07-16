@@ -29,10 +29,11 @@ Server.prototype.start = function(port) {
             handler.exists(url, host, function(result) {
                 var fileMime = mime.lookUpType(url);
                 if (result) {
-                    handler.get(url, host, function(data) {
-                        res.writeHead(200, {'Content-Type': fileMime});
-                        res.end(data);
-                    });
+                    handler.get(url, host, mime, res);
+//                    handler.get(url, host, function(data) {
+//                        res.writeHead(200, {'Content-Type': fileMime});
+//                        res.end(data);
+//                    });
                 } else {
                     var urlArray = self.processUrl(url);
                     if (urlArray.method && urlArray.token && urlArray.param && urlArray.url && methods[urlArray.method]) {
