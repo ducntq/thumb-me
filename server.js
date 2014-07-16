@@ -40,7 +40,12 @@ Server.prototype.start = function(port) {
                     var urlArray = self.processUrl(url);
 
                     // check if everything is alright
-                    if (urlArray.method && urlArray.token && urlArray.param && urlArray.url && methods[urlArray.method]) {
+                    if (urlArray &&
+                        urlArray['method'] !== undefined
+                        && urlArray['token'] !== undefined
+                        && urlArray['param'] !== undefined
+                        && urlArray['url'] !== undefined
+                        && methods[urlArray.method] !== undefined) {
                         // if the requested file is existed, let the method handles
                         handler.exists(urlArray.url, host, function(fileExists) {
                             if (fileExists) {
