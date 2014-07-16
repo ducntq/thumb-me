@@ -46,7 +46,7 @@ Server.prototype.start = function(port) {
                             if (fileExists) {
                                 var method = methods[urlArray.method];
 
-                                if (self.checkToken(host, currentConfig.key, urlArray.method, urlArray.url, urlArray.token)) {
+                                if (self.checkToken(host, currentConfig.key, urlArray.method, urlArray.param, urlArray.url, urlArray.token)) {
                                     // let the method serve
                                     method.serve(handler, urlArray, host, fileMime, res);
                                 } else {
@@ -132,14 +132,16 @@ Server.prototype.md5 = function(input) {
  * @param host
  * @param key
  * @param method
+ * @param param
  * @param url
  * @param token
  * @returns {boolean}
  */
-Server.prototype.checkToken = function(host, key, method, url, token) {
-    var str = host + key + method + url;
-    console.log(self.md5(str).slice(0, 8));
-    return self.md5(str).slice(0, 8) == token;
+Server.prototype.checkToken = function(host, key, method, param, url, token) {
+    var str = host + key + param + method + url;
+    var result = self.md5(str).slice(0, 8);
+    log.debug('Token: ' + result);
+    return result == token;
 };
 
 module.exports = Server;
