@@ -1,6 +1,8 @@
 var config = require('../config.js'),
     path = require('path'),
-    fs = require('fs');
+    fs = require('fs'),
+    cwd = process.env.CWD ? process.env.CWD : process.cwd()
+    ;
 
 /**
  * @constructor
@@ -28,7 +30,7 @@ FileSystemHandler.prototype.get = function(file, host, mime, res) {
  * @returns {*}
  */
 FileSystemHandler.prototype.getHostDir = function(host) {
-    var storageDir = path.resolve(process.cwd(), config.path);
+    var storageDir = path.resolve(cwd, config.path);
     return path.join(storageDir, host);
 };
 
