@@ -2,13 +2,12 @@ var http = require('http'),
     Log = require('log'),
     log = new Log(),
     config = require('./config'),
-    path = require('path'),
     mime = require('node-mime'),
     crypto = require('crypto'),
     FileSystemHandler = require('./handlers/FileSystemHandler'),
     handler = new FileSystemHandler(),
-    self,
-    methods = {}
+    self, // refer to this
+    methods = {} // list of methods
 ;
 
 function Server() {
@@ -19,52 +18,66 @@ function Server() {
 Server.prototype.start = function(port) {
     log.info('Running on port: ' + port);
     http.createServer(function (req, res) {
+        // extract the hostname
         var host = req.headers.host;
         if (host.indexOf(':')) host = host.substring(0, host.indexOf(':'));
+        // extract url
         var url = req.url;
         if (url[0] == '/') url = url.substr(1, url.length - 1);
-        var urlParts = url.split('/');
+
+        // extract the config of current domain
         var currentConfig = config.domains[host];
         if (currentConfig) {
+            // check if the requested file is existed
             handler.exists(url, host, function(result) {
+                // mime of url
                 var fileMime = mime.lookUpType(url);
                 if (result) {
+                    // if file existed, stream the file to response
                     handler.get(url, host, mime, res);
-//                    handler.get(url, host, function(data) {
-//                        res.writeHead(200, {'Content-Type': fileMime});
-//                        res.end(data);
-//                    });
                 } else {
+                    // process url to get the method, param, token, url
                     var urlArray = self.processUrl(url);
+
+                    // check if everything is alright
                     if (urlArray.method && urlArray.token && urlArray.param && urlArray.url && methods[urlArray.method]) {
+                        // if the requested file is existed, let the method handles
                         handler.exists(urlArray.url, host, function(fileExists) {
                             if (fileExists) {
                                 var method = methods[urlArray.method];
 
                                 if (self.checkToken(host, currentConfig.key, urlArray.method, urlArray.url, urlArray.token)) {
+                                    // let the method serve
                                     method.serve(handler, urlArray, host, fileMime, res);
                                 } else {
+                                    // or the token is wrong, send 403
                                     res.writeHead(403, {'Content-Type': 'text/plain'});
                                     res.end('Unauthorized');
                                 }
                             } else {
+                                // file not there?
                                 res.writeHead(404, {'Content-Type': 'text/plain'});
                                 res.end('Not found');
                             }
                         });
                     } else {
+                        // file not there?
                         res.writeHead(404, {'Content-Type': 'text/plain'});
                         res.end('Not found');
                     }
                 }
             });
         } else {
+            // or the domain is not configured
             res.writeHead(404, {'Content-Type': 'text/html'});
             res.end('Domain is not configured.');
         }
-    }).listen(port);
+    }).listen(port); // listen to the port
 };
 
+/**
+ * Load the registered methods
+ */
 Server.prototype.loadMethods = function() {
     log.info('Loading registered Methods');
     if (config.methods) {
@@ -76,6 +89,13 @@ Server.prototype.loadMethods = function() {
     }
 };
 
+/**
+ * Extract the information from the url.
+ * A typical url should look like: /method/param/token/url/to/the/file.png
+ *
+ * @param url
+ * @returns {*}
+ */
 Server.prototype.processUrl = function(url) {
     if (url[0] == '/') url = url.substr(1, url.length - 1);
     var urlParts = url.split('/');
@@ -96,10 +116,26 @@ Server.prototype.processUrl = function(url) {
     }
 };
 
+/**
+ * Generate md5 hash from string
+ *
+ * @param input
+ * @returns {*}
+ */
 Server.prototype.md5 = function(input) {
     return crypto.createHash('md5').update(input).digest('hex');
 };
 
+/**
+ * Compare the token
+ *
+ * @param host
+ * @param key
+ * @param method
+ * @param url
+ * @param token
+ * @returns {boolean}
+ */
 Server.prototype.checkToken = function(host, key, method, url, token) {
     var str = host + key + method + url;
     console.log(self.md5(str).slice(0, 8));
