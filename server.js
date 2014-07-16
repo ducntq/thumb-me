@@ -33,6 +33,7 @@ Server.prototype.start = function(port) {
                 // mime of url
                 var fileMime = mime.lookUpType(url);
                 if (result) {
+                    log.info('Serve directly: ' + url);
                     // if file existed, stream the file to response
                     handler.get(url, host, mime, res);
                 } else {
@@ -52,6 +53,7 @@ Server.prototype.start = function(port) {
                                 var method = methods[urlArray.method];
 
                                 if (self.checkToken(host, currentConfig.key, urlArray.method, urlArray.param, urlArray.url, urlArray.token)) {
+                                    log.info('Serve from method: ' + url);
                                     // let the method serve
                                     method.serve(handler, urlArray, host, fileMime, res);
                                 } else {
