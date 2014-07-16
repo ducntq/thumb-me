@@ -20,7 +20,7 @@ Server.prototype.start = function(port) {
     http.createServer(function (req, res) {
         // extract the hostname
         var host = req.headers['host'];
-        if (host.indexOf(':')) host = host.substring(0, host.indexOf(':'));
+        if (host.indexOf(':') >= 0) host = host.substring(0, host.indexOf(':'));
         // extract url
         var url = req.url;
         if (url[0] == '/') url = url.substr(1, url.length - 1);
