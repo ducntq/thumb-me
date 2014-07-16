@@ -11,7 +11,7 @@ This is a work in progress, any contributions are welcome.
 Planning features
 =================
 
-1. Handlers to make thumbnails.
+1. Basic methods to make thumbnails: thumb, zoom.
 2. Token for self-protection.
 3. Multiple domains support.
-4. Ability to serve from file system, network file system, or others... through adapter.
+4. Cache the thumbnails.

@@ -1,10 +1,5 @@
 module.exports = {
-    "handler": {
-        name: "FileSystemHandler",
-        config: {
-            "path": "./storage"
-        }
-    },
+    "path": "./storage",
     "methods": ["Thumb"],
     "headers": [
         {name: "X-Powered-By", value: "thumb-me"}

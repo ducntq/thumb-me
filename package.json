@@ -1,25 +1,28 @@
 {
-  "name": "thumb-me",
-  "version": "0.0.1",
-  "description": "Minimal webserver for generating thumbnail",
-  "main": "server.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ducntq/thumb-me"
-  },
-  "keywords": [
-    "thumbnail",
-    "static"
-  ],
-  "author": "Duc Nguyen",
-  "license": "GPL",
-  "bugs": {
-    "url": "https://github.com/ducntq/thumb-me/issues"
-  },
-  "homepage": "https://github.com/ducntq/thumb-me",
-  "dependencies": {
-    "gm": "^1.16.0",
-    "log": "^1.4.0",
-    "node-mime": "^1.0.0"
-  }
+    "name": "thumb-me",
+    "version": "0.0.1",
+    "description": "Minimal webserver for generating thumbnail",
+    "main": "server.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ducntq/thumb-me"
+    },
+    "keywords": [
+        "thumbnail",
+        "static"
+    ],
+    "author": "Duc Nguyen",
+    "license": "GPL",
+    "bugs": {
+        "url": "https://github.com/ducntq/thumb-me/issues"
+    },
+    "homepage": "https://github.com/ducntq/thumb-me",
+    "dependencies": {
+        "gm": "^1.16.0",
+        "log": "^1.4.0",
+        "node-mime": "^1.0.0"
+    },
+    "scripts": {
+        "start": "node start.js"
+    }
 }
