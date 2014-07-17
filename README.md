@@ -33,7 +33,7 @@ How it works?
 
 1. Request come to thumb-me. If thumb-me found the file, it will directly serve this file.
 2. If no found is found, thumb-me will try to extract information from url. A typical url should look like:
-```http://storage.local/method/param1_param2_param3/token/url/to/file.png```.
+http://storage.local/method/param1_param2_param3/token/url/to/file.png.
 3. If there's a method to handle this url, the extracted information will be passed to this method.
 4. If there's no method to handle this url, a 404 header will be sent to the client.
 
