@@ -31,9 +31,18 @@ this area are welcomed.
 How it works?
 =============
 
+There are two types of typical url:
+
+```
+http://storage.local/url/to/file.png
+http://storage.local/method/param1_param2_param3/token/url/to/file.png
+```
+
+The first one refer to a physic file, while the latter, refer to a non-existen file. The first one will be served
+directly from filesystem, while the other one will be handler by an appropriate registered method.
+
 1. Request come to thumb-me. If thumb-me found the file, it will directly serve this file.
-2. If no found is found, thumb-me will try to extract information from url. A typical url should look like:
-http://storage.local/method/param1_param2_param3/token/url/to/file.png.
+2. If no file is found, thumb-me will try to extract information from url.
 3. If there's a method to handle this url, the extracted information will be passed to this method.
 4. If there's no method to handle this url, a 404 header will be sent to the client.
 
