@@ -59,7 +59,7 @@ The ```path``` key is used to define the storage directory for the ```FileSystem
 
 The ```methods``` key is used to register the methods which are used by thumb-me to generate result. You can create
 new method, and add to the ```methods``` array (minus the suffix ```Method```; so ```ThumbMethod``` will be added as
-```Thumb```).
+```Thumb``` ).
 
 The ```domains``` key is used to register the domains will be handled by ```thumb-me```. Any unregistered domain will
 be ignored. The ```key``` of each domains, is used to generate the token of the url.
