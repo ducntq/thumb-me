@@ -46,6 +46,16 @@ directly from filesystem, while the other one will be handler by an appropriate 
 3. If there's a method to handle this url, the extracted information will be passed to this method.
 4. If there's no method to handle this url, a 404 header will be sent to the client.
 
+Token generation
+================
+
+The token are generated dynamically based on hostname, key, method name, param, file path; which is the md5 hash of
+concentrated string then take 8 first characters:
+
+```
+md5(hostname + key + param + method + url).splice(0, 8);
+```
+
 Configuration
 =============
 
