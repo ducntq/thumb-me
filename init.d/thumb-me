@@ -1,0 +1,71 @@
+#!/bin/sh
+
+NODE_ENV='production'
+NODE_APP='start.js'
+APP_DIR='/home/storage/thumb-me';
+PID_FILE=$APP_DIR/process.pid
+LOG_FILE=$APP_DIR/info.log
+PORT=3000
+NODE_EXEC='/opt/node/bin/node'
+
+start_app (){
+    if [ -f $PID_FILE ]
+    then
+        echo "$PID_FILE exists, process is already running or crashed"
+        exit 1
+    else
+        echo "Starting node app..."
+        PORT=$PORT CWD=$APP_DIR NODE_ENV=$NODE_ENV $NODE_EXEC $APP_DIR/$NODE_APP  1>$LOG_FILE 2>&1 &
+        echo $! > $PID_FILE;
+    fi
+}
+
+stop_app (){
+    if [ ! -f $PID_FILE ]
+    then
+        echo "$PID_FILE does not exist, process is not running"
+        exit 1
+    else
+        echo "Stopping $APP_DIR/$NODE_APP ..."
+        echo "Killing `cat $PID_FILE`"
+        kill `cat $PID_FILE`;
+        rm -f $PID_FILE;
+        echo "Thumb-me stopped"
+    fi
+}
+
+case "$1" in
+    start)
+        start_app
+    ;;
+
+    stop)
+        stop_app
+    ;;
+
+    restart)
+        stop_app
+        start_app
+    ;;
+
+    status)
+        if [ -f $PID_FILE ]
+        then
+            PID=`cat $PID_FILE`
+            if [ -z "`ps ef | awk '{print $1}' | grep "^$PID$"`" ]
+            then
+                echo "Thumb-me stopped but pid file exists"
+            else
+                echo "Thumb-me running with pid $PID"
+
+            fi
+        else
+            echo "Thumb-me stopped"
+        fi
+    ;;
+
+    *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 1
+    ;;
+esac
