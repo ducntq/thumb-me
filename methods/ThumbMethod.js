@@ -40,7 +40,7 @@ ThumbMethod.prototype.serve = function (handler, urlArray, host, mime, res) {
                 cropWidth = (width > dimensions.width) ? dimensions.width : width;
                 cropHeight = (height > dimensions.height) ? dimensions.height : height;
                 if (dimensions.width > cropWidth) x = (dimensions.width - cropWidth) / 2;
-                if (dimensions.height - cropHeight) y = (dimensions.height - cropHeight) / 2;
+                if (dimensions.height > cropHeight) y = (dimensions.height - cropHeight) / 2;
 
                 res.writeHead(200, {"Content-Type": mime});
                 image.crop(cropWidth, cropHeight, x, y).resize(width, height).noProfile().stream().pipe(res);
