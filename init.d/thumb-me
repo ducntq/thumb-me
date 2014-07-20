@@ -7,6 +7,10 @@ PID_FILE=$APP_DIR/process.pid
 LOG_FILE=$APP_DIR/info.log
 PORT=3000
 NODE_EXEC='/opt/node/bin/node'
+USER='storage'
+
+# Source function library.
+. /etc/rc.d/init.d/functions
 
 start_app (){
     if [ -f $PID_FILE ]
@@ -15,7 +19,7 @@ start_app (){
         exit 1
     else
         echo "Starting node app..."
-        PORT=$PORT CWD=$APP_DIR NODE_ENV=$NODE_ENV $NODE_EXEC $APP_DIR/$NODE_APP  1>$LOG_FILE 2>&1 &
+        PORT=$PORT CWD=$APP_DIR NODE_ENV=$NODE_ENV daemon --user=$USER $NODE_EXEC $APP_DIR/$NODE_APP 1>$LOG_FILE 2>&1 &
         echo $! > $PID_FILE;
     fi
 }
