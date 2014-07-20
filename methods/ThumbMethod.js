@@ -41,6 +41,7 @@ ThumbMethod.prototype.serve = function (handler, urlArray, host, mime, res) {
                 cropHeight = (height > dimensions.height) ? dimensions.height : height;
                 if (dimensions.width > cropWidth) x = (dimensions.width - cropWidth) / 2;
                 if (dimensions.height > cropHeight) y = (dimensions.height - cropHeight) / 2;
+                console.log(cropWidth, cropHeight, x, y);
 
                 res.writeHead(200, {"Content-Type": mime});
                 image.crop(cropWidth, cropHeight, x, y).resize(width, height).noProfile().stream().pipe(res);
