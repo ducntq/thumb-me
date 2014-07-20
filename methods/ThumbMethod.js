@@ -35,12 +35,14 @@ ThumbMethod.prototype.serve = function (handler, urlArray, host, mime, res) {
 
                 var x = 0, y = 0, cropWidth, cropHeight;
 
-                if (width == 0) width = (height * dimensions.width) / dimensions.height;
-                if (height == 0) height = (width * dimensions.height) / dimensions.width;
-                cropWidth = (width > dimensions.width) ? dimensions.width : width;
-                cropHeight = (height > dimensions.height) ? dimensions.height : height;
-                if (dimensions.width > cropWidth) x = (dimensions.width - cropWidth) / 2;
-                if (dimensions.height > cropHeight) y = (dimensions.height - cropHeight) / 2;
+                if (width == 0) width = parseInt((height * dimensions.width) / dimensions.height);
+                if (height == 0) height = parseInt((width * dimensions.height) / dimensions.width);
+
+                cropWidth = parseInt(dimensions.height * width / height);
+                cropHeight = parseInt(dimensions.width * height / width);
+
+                if (width > height) x = parseInt((dimensions.width - cropWidth) / 2);
+                else y = parseInt((dimensions.height - cropHeight) / 2);
                 console.log(cropWidth, cropHeight, x, y);
 
                 res.writeHead(200, {"Content-Type": mime});
